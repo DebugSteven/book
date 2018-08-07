@@ -1,0 +1,311 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Hello, World! - Rust and WebAssembly</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" rel="stylesheet" type="text/css">
+        <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro:500" rel="stylesheet" type="text/css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body class="light">
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">var path_to_root = "../";</script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { } 
+            if (theme === null || theme === undefined) { theme = 'light'; }
+            document.body.className = theme;
+            document.querySelector('html').className = theme + ' js';
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <ol class="chapter"><li><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li><a href="../background-and-concepts.html"><strong aria-hidden="true">2.</strong> Background And Concepts</a></li><li><a href="../game-of-life/introduction.html"><strong aria-hidden="true">3.</strong> Tutorial</a></li><li><ol class="section"><li><a href="../game-of-life/setup.html"><strong aria-hidden="true">3.1.</strong> Setup</a></li><li><a href="../game-of-life/hello-world.html" class="active"><strong aria-hidden="true">3.2.</strong> Hello, World!</a></li><li><a href="../game-of-life/rules.html"><strong aria-hidden="true">3.3.</strong> Rules</a></li><li><a href="../game-of-life/implementing.html"><strong aria-hidden="true">3.4.</strong> Implementing Life</a></li><li><a href="../game-of-life/debugging.html"><strong aria-hidden="true">3.5.</strong> Debugging</a></li><li><a href="../game-of-life/interactivity.html"><strong aria-hidden="true">3.6.</strong> Adding Interactivity</a></li><li><a href="../game-of-life/time-profiling.html"><strong aria-hidden="true">3.7.</strong> Time Profiling</a></li><li><a href="../game-of-life/code-size.html"><strong aria-hidden="true">3.8.</strong> Shrinking .wasm Size</a></li><li><a href="../game-of-life/production.html"><strong aria-hidden="true">3.9.</strong> Production and Deployment</a></li><li class="spacer"></li></ol></li><li><a href="../crates.html"><strong aria-hidden="true">5.</strong> Crates You Should Know</a></li><li><a href="../tools.html"><strong aria-hidden="true">6.</strong> Tools You Should Know</a></li><li><a href="../js-ffi.html"><strong aria-hidden="true">7.</strong> JavaScript Interoperation</a></li></ol>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar" class="menu-bar">
+                    <div id="menu-bar-sticky-container">
+                        <div class="left-buttons">
+                            <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                                <i class="fa fa-bars"></i>
+                            </button>
+                            <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                                <i class="fa fa-paint-brush"></i>
+                            </button>
+                            <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                                <li role="none"><button role="menuitem" class="theme" id="light">Light <span class="default">(default)</span></button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                                <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                            </ul>
+                            
+                            <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            
+                        </div>
+
+                        <h1 class="menu-title">Rust and WebAssembly</h1> 
+
+                        <div class="right-buttons">
+                            <a href="../print.html" title="Print this book" aria-label="Print this book">
+                                <i id="print-button" class="fa fa-print"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <a class="header" href="#hello-world" id="hello-world"><h1>Hello, World!</h1></a>
+<p>This section will show you how to build and run your first Rust and WebAssembly
+program: a Web page that alerts &quot;Hello, World!&quot;</p>
+<a class="header" href="#clone-the-project-template" id="clone-the-project-template"><h2>Clone the Project Template</h2></a>
+<p>The project template contains a &quot;hello world&quot; program. It comes pre-configured
+with sane defaults, so you can quickly build, integrate, and package your code
+for the Web.</p>
+<p>Clone this tutorials code repository, enter its directory, and checkout the
+<code>chapter-zero</code> branch:</p>
+<pre><code class="language-text">git clone https://github.com/rustwasm/wasm_game_of_life.git
+cd ./wasm_game_of_life
+git checkout -b chapter-zero origin/chapter-zero
+</code></pre>
+<a class="header" href="#whats-inside" id="whats-inside"><h2>What's Inside</h2></a>
+<p>Let's take a look at the contents of our project:</p>
+<pre><code class="language-text">.
+├── bootstrap.js
+├── Cargo.lock
+├── Cargo.toml
+├── index.html
+├── index.js
+├── package.json
+├── package-lock.json
+├── src
+│   └── lib.rs
+└── webpack.config.js
+</code></pre>
+<p>Most of these are configuration files, but there are a few files we should
+highlight.</p>
+<a class="header" href="#indexhtml" id="indexhtml"><h3><code>index.html</code></h3></a>
+<p>This is the root HTML file for the the Web page. It doesn't do much other than
+load <code>bootstrap.js</code>, which is a very thin wrapper around <code>index.js</code>.</p>
+<pre><code class="language-html">&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta content=&quot;text/html;charset=utf-8&quot; http-equiv=&quot;Content-Type&quot;/&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;script src='./bootstrap.js'&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<a class="header" href="#indexjs" id="indexjs"><h3><code>index.js</code></h3></a>
+<p>The <code>index.js</code> is the main entry point for our Web page's JavaScript. It imports
+the project's WebAssembly module, and calls the module's <code>greet</code> function.</p>
+<pre><code class="language-js">import { greet } from &quot;./wasm_game_of_life&quot;;
+
+greet(&quot;Rust and WebAssembly&quot;);
+</code></pre>
+<a class="header" href="#srclibrs" id="srclibrs"><h3><code>src/lib.rs</code></h3></a>
+<p>The <code>src/lib.rs</code> file is the root of the Rust crate that we are compiling to
+WebAssembly. It uses <code>wasm_bindgen</code> to interface with JavaScript. It imports the
+<code>window.alert</code> JavaScript function, and exports the <code>greet</code> Rust function, which
+takes a <code>name</code> parameter and alerts a greeting message.</p>
+<pre><pre class="playpen"><code class="language-rust">
+# #![allow(unused_variables)]
+#![feature(use_extern_macros)]
+
+#fn main() {
+extern crate wasm_bindgen;
+
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen]
+extern {
+    fn alert(s: &amp;str);
+}
+
+#[wasm_bindgen]
+pub fn greet(name: &amp;str) {
+    alert(&amp;format!(&quot;Hello, {}!&quot;, name));
+}
+#}</code></pre></pre>
+<a class="header" href="#building-and-serving" id="building-and-serving"><h2>Building and Serving</h2></a>
+<p>First, ensure that the JavaScript build dependencies are installed for this
+project:</p>
+<pre><code class="language-text">npm install
+</code></pre>
+<p>This command only needs to be run once, and will install the <code>webpack</code>
+JavaScript bundler and its development server. Note that <code>webpack</code> is not
+required for working with Rust and WebAssembly, it is just the bundler and
+development server we've chosen for convenience here.</p>
+<p>To build the Rust crate as WebAssembly and generate the <code>wasm_bindgen</code> glue, run
+this command:</p>
+<pre><code class="language-text">npm run build-debug
+</code></pre>
+<p>The first build may take a little while, since dependencies need to be compiled.
+But don't worry: subsequent builds, when dependencies don't need to be
+recompiled, will be much faster.</p>
+<p>This creates a &quot;debug&quot; build of the Rust crates: a build that does not have
+optimizations applied, and has symbols included for better debugging in your
+browser's developer tools. You can also create a &quot;release&quot; build that has
+optimization passes applied with this command:</p>
+<pre><code>npm run build-release
+</code></pre>
+<p>This is the command we want to use to create <code>.wasm</code> binaries for profiling and
+deploying to production.</p>
+<p>Next, open a new terminal for the development server. Running the server in a
+new terminal lets us leave it running in the background, and doesn't block us
+from running other commands in the meantime. In the new terminal, run this
+command:</p>
+<pre><code>npm run serve
+</code></pre>
+<p>Navigate your Web browser to <a href="http://localhost:8080/">http://localhost:8080/</a>
+and you should be greeted with an alert message:</p>
+<p><a href="../images/game-of-life/setup.png"><img src="../images/game-of-life/setup.png" alt="Screenshot of the &quot;Hello, Rust and WebAssembly!&quot; Web page alert" /></a></p>
+<p>Anytime you make changes and want them reflected on
+<a href="http://localhost:8080/">http://localhost:8080/</a>, just re-run the <code>npm run build-debug</code>
+command.</p>
+<a class="header" href="#exercises" id="exercises"><h2>Exercises</h2></a>
+<ul>
+<li>Modify <code>index.js</code> to greet you by your name instead of by &quot;Rust and WebAssembly&quot;.</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../game-of-life/setup.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../game-of-life/rules.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a href="../game-of-life/setup.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a href="../game-of-life/rules.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
